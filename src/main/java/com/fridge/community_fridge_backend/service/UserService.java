@@ -35,7 +35,7 @@ public class UserService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
             .withUsername(user.getEmail())
             .password(user.getPassword())
-            .roles(user.getRole().name()) // assuming user.getRole() returns an enum
+            .roles(user.getRole().name()) 
             .build();
     }
 }
