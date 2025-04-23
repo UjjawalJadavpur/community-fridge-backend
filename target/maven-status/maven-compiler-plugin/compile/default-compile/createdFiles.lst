@@ -12,4 +12,5 @@ com/fridge/community_fridge_backend/controller/AuthController.class
 com/fridge/community_fridge_backend/dto/LoginRequest.class
 com/fridge/community_fridge_backend/controller/HomeController.class
 com/fridge/community_fridge_backend/dto/AuthResponse.class
+FoodItem.class
 com/fridge/community_fridge_backend/repository/UserRepository.class

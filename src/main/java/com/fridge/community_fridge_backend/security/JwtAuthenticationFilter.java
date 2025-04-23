@@ -32,7 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        
 
+                                        String path = request.getRequestURI();
+                                        if (path.startsWith("/auth/login") || path.startsWith("/auth/register")) {
+                                            System.out.println("⏭️ Skipping JWT for: " + path);
+                                            filterChain.doFilter(request, response);
+                                            return;
+                                        }
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;

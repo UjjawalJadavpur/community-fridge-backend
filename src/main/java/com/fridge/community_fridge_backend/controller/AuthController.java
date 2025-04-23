@@ -23,6 +23,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
         AuthResponse authResponse = authService.register(registerRequest);
+        System.out.println("🔥 Reached /auth/register endpoint");
         return ResponseEntity.status(201).body(authResponse);
     }
 
