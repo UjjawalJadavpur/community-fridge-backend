@@ -1,6 +1,7 @@
 package com.fridge.community_fridge_backend.service;
 
 import com.fridge.community_fridge_backend.entity.*;
+import com.fridge.community_fridge_backend.exception.ResourceNotFoundException;
 import com.fridge.community_fridge_backend.repository.FoodItemRepository;
 import com.fridge.community_fridge_backend.repository.PickupRequestRepository;
 import com.fridge.community_fridge_backend.repository.UserRepository;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,7 @@ public class PickupRequestService {
     // Create a pickup request
     public PickupRequest requestPickup(Long foodItemId) {
         FoodItem foodItem = foodItemRepository.findById(foodItemId)
-                .orElseThrow(() -> new RuntimeException("Food item not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("FoodItem", "id", foodItemId));
 
         PickupRequest pickupRequest = PickupRequest.builder()
                 .foodItem(foodItem)
@@ -35,10 +35,10 @@ public class PickupRequestService {
     // Volunteer accepts the pickup
     public PickupRequest acceptPickup(Long requestId, Long volunteerId) {
         PickupRequest request = pickupRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Pickup request not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("PickupRequest", "id", requestId));
 
         User volunteer = userRepository.findById(volunteerId)
-                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User (Volunteer)", "id", volunteerId));
 
         request.setVolunteer(volunteer);
         request.setStatus(PickupStatus.ACCEPTED);
@@ -49,7 +49,7 @@ public class PickupRequestService {
     // Mark as delivered
     public PickupRequest markAsDelivered(Long requestId) {
         PickupRequest request = pickupRequestRepository.findById(requestId)
-                .orElseThrow(() -> new RuntimeException("Pickup request not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("PickupRequest", "id", requestId));
 
         request.setStatus(PickupStatus.DELIVERED);
         request.setDeliveredAt(LocalDateTime.now());
@@ -60,7 +60,7 @@ public class PickupRequestService {
     // Get pickups for a volunteer
     public List<PickupRequest> getPickupsForVolunteer(Long volunteerId) {
         User volunteer = userRepository.findById(volunteerId)
-                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User (Volunteer)", "id", volunteerId));
         return pickupRequestRepository.findByVolunteer(volunteer);
     }
 

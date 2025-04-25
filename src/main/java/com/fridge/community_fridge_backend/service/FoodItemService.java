@@ -24,6 +24,7 @@ public class FoodItemService {
         this.userRepository = userRepository;
     }
 
+    // Create a new food item
     public FoodItemDTO createFoodItem(FoodItemDTO foodItemDTO) {
         User donor = userRepository.findById(foodItemDTO.getDonorId())
                 .orElseThrow(() -> new ResourceNotFoundException("User (Donor)", "id", foodItemDTO.getDonorId()));
@@ -40,18 +41,29 @@ public class FoodItemService {
         return foodItemDTO;
     }
 
+    // Get all food items
     public List<FoodItemDTO> getAllFoodItems() {
         return foodItemRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
+    // Get food item by ID
     public FoodItemDTO getFoodItemById(Long id) {
         return foodItemRepository.findById(id)
                 .map(this::convertToDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("FoodItem", "id", id));
     }
 
+    // Get food items by donor ID
+    public List<FoodItemDTO> getFoodItemsByDonorId(Long donorId) {
+        return foodItemRepository.findAll().stream()
+                .filter(item -> item.getDonor().getId().equals(donorId))
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Delete food item by ID
     public void deleteFoodItem(Long id) {
         if (!foodItemRepository.existsById(id)) {
             throw new ResourceNotFoundException("FoodItem", "id", id);
@@ -59,6 +71,7 @@ public class FoodItemService {
         foodItemRepository.deleteById(id);
     }
 
+    // Convert entity to DTO
     private FoodItemDTO convertToDTO(FoodItem foodItem) {
         FoodItemDTO foodItemDTO = new FoodItemDTO();
         foodItemDTO.setId(foodItem.getId());
