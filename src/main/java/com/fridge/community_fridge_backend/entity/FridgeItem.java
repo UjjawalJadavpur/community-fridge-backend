@@ -16,11 +16,11 @@ public class FridgeItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fridge_id")
     private Fridge fridge;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_item_id")
     private FoodItem foodItem;
 
@@ -29,7 +29,7 @@ public class FridgeItem {
     private LocalDateTime addedAt;
 
     @PrePersist
-    protected void onAdd() {
+    protected void onCreate() {
         this.addedAt = LocalDateTime.now();
     }
 }

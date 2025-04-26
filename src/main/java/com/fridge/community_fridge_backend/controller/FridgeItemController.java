@@ -2,16 +2,18 @@ package com.fridge.community_fridge_backend.controller;
 
 import com.fridge.community_fridge_backend.dto.FridgeItemDTO;
 import com.fridge.community_fridge_backend.service.FridgeItemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/fridge-items")
+@Validated
 public class FridgeItemController {
 
     private final FridgeItemService fridgeItemService;
@@ -34,8 +36,8 @@ public class FridgeItemController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFridgeItem(@PathVariable Long id) {
+    public ResponseEntity<String> deleteFridgeItem(@PathVariable Long id) {
         fridgeItemService.deleteFridgeItem(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Fridge item deleted successfully.");
     }
 }

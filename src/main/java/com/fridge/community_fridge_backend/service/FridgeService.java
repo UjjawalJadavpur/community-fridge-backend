@@ -22,9 +22,11 @@ public class FridgeService {
 
     public FridgeDTO createFridge(FridgeDTO dto) {
         Fridge fridge = new Fridge();
-        fridge.setLocationName(dto.getLocationName());
+        fridge.setName(dto.getName()); 
+        fridge.setAddress(dto.getAddress());
         fridge.setLatitude(dto.getLatitude());
         fridge.setLongitude(dto.getLongitude());
+        fridge.setStatus(dto.getStatus());
 
         Fridge saved = fridgeRepository.save(fridge);
         dto.setId(saved.getId());
@@ -43,12 +45,21 @@ public class FridgeService {
         return convertToDTO(fridge);
     }
 
+    public void deleteFridge(Long id) {
+        if (!fridgeRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Fridge", "id", id);
+        }
+        fridgeRepository.deleteById(id);
+    }
+
     private FridgeDTO convertToDTO(Fridge fridge) {
         FridgeDTO dto = new FridgeDTO();
         dto.setId(fridge.getId());
-        dto.setLocationName(fridge.getLocationName());
+        dto.setName(fridge.getName()); // 👈 Replaced getLocationName
+        dto.setAddress(fridge.getAddress());
         dto.setLatitude(fridge.getLatitude());
         dto.setLongitude(fridge.getLongitude());
+        dto.setStatus(fridge.getStatus());
         return dto;
     }
 }

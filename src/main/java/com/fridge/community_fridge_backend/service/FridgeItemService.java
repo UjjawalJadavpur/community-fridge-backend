@@ -42,9 +42,11 @@ public class FridgeItemService {
         FridgeItem fridgeItem = new FridgeItem();
         fridgeItem.setFridge(fridge);
         fridgeItem.setFoodItem(foodItem);
+        fridgeItem.setQuantityLeft(dto.getQuantityLeft()); // ✅ Set quantityLeft
 
         FridgeItem saved = fridgeItemRepository.save(fridgeItem);
         dto.setId(saved.getId());
+        dto.setAddedAt(saved.getAddedAt()); // ✅ Also set addedAt back to DTO if needed
         return dto;
     }
 
@@ -66,6 +68,8 @@ public class FridgeItemService {
         dto.setId(fridgeItem.getId());
         dto.setFridgeId(fridgeItem.getFridge().getId());
         dto.setFoodItemId(fridgeItem.getFoodItem().getId());
+        dto.setQuantityLeft(fridgeItem.getQuantityLeft()); // ✅ Include quantityLeft
+        dto.setAddedAt(fridgeItem.getAddedAt());            // ✅ Include addedAt
         return dto;
     }
 }
