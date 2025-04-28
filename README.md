@@ -35,3 +35,48 @@ A web application that connects people who have surplus food with those in need 
 git clone https://github.com/yourusername/community-fridge-backend.git
 cd community-fridge-backend
 ./mvnw spring-boot:run
+
+flowchart TD
+  subgraph Auth
+    AuthService --> UserRepository
+    AuthService --> JwtService
+    AuthService --> AuthenticationManager
+    UserRepository --> User
+    LoginRequestDTO
+    RegisterRequestDTO
+    AuthResponseDTO
+  end
+
+  subgraph Food Management
+    FoodItemService --> FoodItemRepository
+    FoodItemService --> UserRepository
+    FoodItemDTO
+    FoodItemRepository --> FoodItem
+    FoodItem --> User
+  end
+
+  subgraph Fridge Inventory
+    FridgeItemService --> FridgeItemRepository
+    FridgeItemService --> FoodItemRepository
+    FridgeItemService --> FridgeRepository
+    FridgeItemDTO
+    FridgeItemRepository --> FridgeItem
+    FridgeItem --> FoodItem
+    FridgeItem --> Fridge
+  end
+
+  subgraph Fridge Management
+    FridgeService --> FridgeRepository
+    FridgeDTO
+    FridgeRepository --> Fridge
+  end
+
+  subgraph Pickup Requests
+    PickupRequestService --> PickupRequestRepository
+    PickupRequestService --> FoodItemRepository
+    PickupRequestService --> UserRepository
+    PickupRequestRepository --> PickupRequest
+    PickupRequest --> FoodItem
+    PickupRequest --> User
+  end
+
