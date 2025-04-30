@@ -55,7 +55,7 @@ public class FridgeService {
     private FridgeDTO convertToDTO(Fridge fridge) {
         FridgeDTO dto = new FridgeDTO();
         dto.setId(fridge.getId());
-        dto.setName(fridge.getName()); // 👈 Replaced getLocationName
+        dto.setName(fridge.getName()); 
         dto.setAddress(fridge.getAddress());
         dto.setLatitude(fridge.getLatitude());
         dto.setLongitude(fridge.getLongitude());
