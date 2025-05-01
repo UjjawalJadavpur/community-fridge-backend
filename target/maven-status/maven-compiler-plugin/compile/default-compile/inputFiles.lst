@@ -26,6 +26,7 @@
 /home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/repository/FridgeRepository.java
 /home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/repository/PickupRequestRepository.java
 /home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/repository/UserRepository.java
+/home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/scheduler/FridgeItemExpiryScheduler.java
 /home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/security/JwtAuthenticationFilter.java
 /home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/security/JwtService.java
 /home/nd-ll0225/Documents/community-fridge-backend/src/main/java/com/fridge/community_fridge_backend/service/AuthService.java

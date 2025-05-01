@@ -54,4 +54,6 @@ public class FoodItemController {
         foodItemService.deleteFoodItem(id);
         return ResponseEntity.noContent().build();
     }
+
+    
 }

@@ -25,8 +25,7 @@ public class FridgeItemService {
     public FridgeItemService(
             FridgeItemRepository fridgeItemRepository,
             FridgeRepository fridgeRepository,
-            FoodItemRepository foodItemRepository
-    ) {
+            FoodItemRepository foodItemRepository) {
         this.fridgeItemRepository = fridgeItemRepository;
         this.fridgeRepository = fridgeRepository;
         this.foodItemRepository = foodItemRepository;
@@ -42,11 +41,17 @@ public class FridgeItemService {
         FridgeItem fridgeItem = new FridgeItem();
         fridgeItem.setFridge(fridge);
         fridgeItem.setFoodItem(foodItem);
-        fridgeItem.setQuantityLeft(dto.getQuantityLeft()); // ✅ Set quantityLeft
+        fridgeItem.setQuantityLeft(dto.getQuantityLeft());
+        fridgeItem.setExpiryDate(foodItem.getExpiryDate()); 
+        fridgeItem.setExpiryDate(foodItem.getExpiryDate()); // Make sure this is LocalDateTime
+
+
 
         FridgeItem saved = fridgeItemRepository.save(fridgeItem);
+
         dto.setId(saved.getId());
-        dto.setAddedAt(saved.getAddedAt()); // ✅ Also set addedAt back to DTO if needed
+        dto.setExpiryDate(saved.getExpiryDate());
+        dto.setAddedAt(saved.getAddedAt());
         return dto;
     }
 
@@ -63,13 +68,18 @@ public class FridgeItemService {
         fridgeItemRepository.deleteById(id);
     }
 
+    public List<FridgeItem> getExpiredItems() {
+        return fridgeItemRepository.findByExpiredTrue();
+    }
+
     private FridgeItemDTO convertToDTO(FridgeItem fridgeItem) {
         FridgeItemDTO dto = new FridgeItemDTO();
         dto.setId(fridgeItem.getId());
         dto.setFridgeId(fridgeItem.getFridge().getId());
         dto.setFoodItemId(fridgeItem.getFoodItem().getId());
-        dto.setQuantityLeft(fridgeItem.getQuantityLeft()); // ✅ Include quantityLeft
-        dto.setAddedAt(fridgeItem.getAddedAt());            // ✅ Include addedAt
+        dto.setQuantityLeft(fridgeItem.getQuantityLeft());
+        dto.setExpiryDate(fridgeItem.getExpiryDate());
+        dto.setAddedAt(fridgeItem.getAddedAt());
         return dto;
     }
 }

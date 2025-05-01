@@ -3,7 +3,6 @@ package com.fridge.community_fridge_backend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,6 +22,12 @@ public class FridgeItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_item_id")
     private FoodItem foodItem;
+
+    @Column(nullable = false)
+    private boolean expired = false;
+
+    @Column(nullable = false)
+    private LocalDateTime expiryDate;
 
     private int quantityLeft;
 

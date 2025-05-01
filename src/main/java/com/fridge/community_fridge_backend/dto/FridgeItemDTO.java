@@ -14,4 +14,6 @@ public class FridgeItemDTO {
     private Long foodItemId;
     private int quantityLeft;
     private LocalDateTime addedAt;
+    private LocalDateTime expiryDate;
+
 }

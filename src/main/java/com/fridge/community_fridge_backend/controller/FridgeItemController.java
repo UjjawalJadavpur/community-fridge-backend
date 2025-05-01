@@ -1,6 +1,7 @@
 package com.fridge.community_fridge_backend.controller;
 
 import com.fridge.community_fridge_backend.dto.FridgeItemDTO;
+import com.fridge.community_fridge_backend.entity.FridgeItem;
 import com.fridge.community_fridge_backend.service.FridgeItemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,11 @@ public class FridgeItemController {
     public ResponseEntity<String> deleteFridgeItem(@PathVariable Long id) {
         fridgeItemService.deleteFridgeItem(id);
         return ResponseEntity.ok("Fridge item deleted successfully.");
+    }
+
+    @GetMapping("/expired")
+    public ResponseEntity<List<FridgeItem>> getExpiredItems() {
+        List<FridgeItem> expiredItems = fridgeItemService.getExpiredItems();
+        return ResponseEntity.ok(expiredItems);
     }
 }
