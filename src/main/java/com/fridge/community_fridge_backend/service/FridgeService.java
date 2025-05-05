@@ -23,7 +23,7 @@ public class FridgeService {
     public FridgeDTO createFridge(FridgeDTO dto) {
         Fridge fridge = new Fridge();
         fridge.setName(dto.getName()); 
-        fridge.setAddress(dto.getAddress());
+        fridge.setLocation(dto.getLocation());
         fridge.setLatitude(dto.getLatitude());
         fridge.setLongitude(dto.getLongitude());
         fridge.setStatus(dto.getStatus());
@@ -56,7 +56,7 @@ public class FridgeService {
         FridgeDTO dto = new FridgeDTO();
         dto.setId(fridge.getId());
         dto.setName(fridge.getName()); 
-        dto.setAddress(fridge.getAddress());
+        dto.setLocation(fridge.getLocation());
         dto.setLatitude(fridge.getLatitude());
         dto.setLongitude(fridge.getLongitude());
         dto.setStatus(fridge.getStatus());

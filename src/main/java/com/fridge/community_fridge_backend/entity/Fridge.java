@@ -19,14 +19,17 @@ public class Fridge {
 
     private String name;
 
-    private String address;
-
-    private Double latitude;
-    private Double longitude;
+    private String location;
 
     private String status; // ACTIVE, INACTIVE, etc.
 
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private Double latitude;
+
+    @Column(nullable = false)
+    private Double longitude;
 
     @OneToMany(mappedBy = "fridge", cascade = CascadeType.ALL)
     private List<FridgeItem> fridgeItems;

@@ -25,8 +25,10 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
 
+    // Include userId as id in the token
     public String generateToken(User user) {
         return Jwts.builder()
+                .claim("id", user.getId()) 
                 .claim("name", user.getName())
                 .claim("email", user.getEmail())
                 .claim("role", user.getRole().name())
@@ -40,11 +42,16 @@ public class JwtService {
         return extractAllClaims(token).get("email", String.class);
     }
 
-    public boolean isTokenValid(String token, User user) {
-        final String email = extractEmail(token); 
-        return (email.equals(user.getEmail())) && !isTokenExpired(token);
+    // Extract the user id from the token
+    public Long extractUserId(String token) {
+        return extractAllClaims(token).get("id", Long.class);  // Extract id
     }
-    
+
+    public boolean isTokenValid(String token, User user) {
+        final String email = extractEmail(token);
+        final Long userId = extractUserId(token);  // Extract userId from token
+        return (email.equals(user.getEmail()) && userId.equals(user.getId())) && !isTokenExpired(token);
+    }
 
     private boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());

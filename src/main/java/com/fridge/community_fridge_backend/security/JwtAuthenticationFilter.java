@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.lang.NonNull;
+
 
 import com.fridge.community_fridge_backend.entity.User;
 import com.fridge.community_fridge_backend.service.UserService;
@@ -28,21 +30,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userService = userService;
     }
 
+   
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         
+        String path = request.getRequestURI();
+        if (path.startsWith("/auth/login") || path.startsWith("/auth/register")) {
+            System.out.println("⏭️ Skipping JWT for: " + path);
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-                                        String path = request.getRequestURI();
-                                        if (path.startsWith("/auth/login") || path.startsWith("/auth/register")) {
-                                            System.out.println("⏭️ Skipping JWT for: " + path);
-                                            filterChain.doFilter(request, response);
-                                            return;
-                                        }
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
-        final String userEmail;
+        final Long userId;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -50,9 +53,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractEmail(jwt);        
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            Optional<User> userOptional = userService.findByEmail(userEmail);
+        userId = jwtService.extractUserId(jwt);  // Extract the userId from the token
+
+        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            Optional<User> userOptional = userService.findById(userId);  // Find user by id
 
             if (userOptional.isPresent() && jwtService.isTokenValid(jwt, userOptional.get())) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

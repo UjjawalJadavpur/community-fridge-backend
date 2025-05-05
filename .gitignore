@@ -1,0 +1,15 @@
+# Ignore build output
+/target/
+
+# Ignore IDE files
+.idea/
+*.iml
+*.class
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore crash logs
+hs_err_pid*.log
+

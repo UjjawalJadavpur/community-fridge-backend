@@ -22,10 +22,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
-    public Optional<User> findByName(String name) {
-        return userRepository.findByName(name);
+    // Custom method to find by id
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);  // Find user by id
     }
-    
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
